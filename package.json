@@ -1,0 +1,56 @@
+{
+  "name": "@dkdao/framework",
+  "description": "A minimal TypeScript framework",
+  "version": "1.0.1",
+  "main": "./build/src/index.js",
+  "types": "./build/src/index.d.ts",
+  "files": [
+    "build"
+  ],
+  "devDependencies": {
+    "@types/express": "^4.17.13",
+    "@types/node": "^16.10.1",
+    "@typescript-eslint/eslint-plugin": "^4.32.0",
+    "@typescript-eslint/parser": "^4.32.0",
+    "eslint": "^7.32.0",
+    "eslint-config-airbnb-base": "^14.2.1",
+    "eslint-config-prettier": "^8.3.0",
+    "eslint-plugin-import": "^2.24.2",
+    "prettier": "^2.4.1",
+    "typescript": "^4.4.3"
+  },
+  "scripts": {
+    "test": "echo \"No test specified\" && exit 0",
+    "build": "rm -rf ./build && tsc",
+    "release": "npm run fix && prettier --check --write ./src/**/*.ts && npm run test && npm run build && node ./devel.js",
+    "check": "npm run fix && prettier --check --write ./src/**/*.ts && npm run test && npm run build",
+    "fix": "eslint --config .eslintrc.json --fix --ignore-path .eslintignore ./src/**/*.ts"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/DK-DAO/framework.git"
+  },
+  "keywords": [
+    "framework",
+    "dkdao",
+    "easy"
+  ],
+  "author": "chiro8x@gmail.com",
+  "license": "Apache-2.0",
+  "bugs": {
+    "url": "https://github.com/DK-DAO/framework/issues"
+  },
+  "homepage": "https://github.com/DK-DAO/framework#readme",
+  "dependencies": {
+    "add": "^2.0.6",
+    "chalk": "^4.1.2",
+    "dotenv": "^10.0.0",
+    "express": "^4.17.1",
+    "knex": "^0.95.11",
+    "logform": "^2.3.0",
+    "modern-syslog": "^1.2.0",
+    "remove": "^0.1.5",
+    "winston": "^3.3.3",
+    "winston-transport": "^4.4.0"
+  }
+}
