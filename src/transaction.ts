@@ -1,10 +1,18 @@
 import { Knex } from 'knex';
 import { Connector } from './connector';
 
+export type TTransactionCallback = (tx: Knex.Transaction) => Promise<void>;
+
+export type TErrorCallback = (error: Error) => Promise<void>;
+
 export class Transaction {
   private knexInstance: Knex;
 
   private transaction: Knex.Transaction | null = null;
+
+  private stack: TTransactionCallback[] = [];
+
+  private errorStack: TErrorCallback[] = [];
 
   constructor(dbInstanceName: string = '__default__') {
     this.knexInstance = Connector.getInstance(dbInstanceName);
@@ -22,18 +30,35 @@ export class Transaction {
     return this.transaction;
   }
 
-  public async safeExec(callback: (tx: Knex.Transaction) => Promise<void>) {
-    if (this.transaction === null) {
-      throw new Error('Transaction was not started');
-    }
-    if (callback.constructor.name !== 'AsyncFunction') {
+  public process(proc: TTransactionCallback): Transaction {
+    if (proc.constructor.name !== 'AsyncFunction') {
       throw new Error('Callback must be async function');
     }
+    this.stack.push(proc);
+    return this;
+  }
+
+  public catch(errorProc: TErrorCallback): Transaction {
+    if (errorProc.constructor.name !== 'AsyncFunction') {
+      throw new Error('Error callback must be async function');
+    }
+    this.errorStack.push(errorProc);
+    return this;
+  }
+
+  public async exec() {
     try {
-      await callback(this.transaction);
+      if (this.transaction === null) {
+        this.transaction = await this.knexInstance.transaction();
+      }
+      for (let i = 0; i < this.stack.length; i += 1) {
+        await this.stack[i](this.transaction);
+      }
       await this.commit();
     } catch (e) {
-      // Rollback before
+      for (let i = 0; i < this.stack.length; i += 1) {
+        await this.errorStack[i](e as Error);
+      }
       await this.rollback();
       throw e;
     }
@@ -48,7 +73,7 @@ export class Transaction {
       this.transaction = null;
       return true;
     }
-    throw new Error('Not able to rollback given transaction');
+    throw new Error('Not able to rollback transaction');
   }
 
   public async commit(): Promise<boolean> {

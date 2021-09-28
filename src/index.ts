@@ -6,6 +6,8 @@ export * from './validator';
 export * from './logger/index';
 export * from './logger/transport';
 export * from './model-mysql';
+export * from './model-mysql-basic';
+export * from './transaction';
 export * from './connector';
 export * from './pagination';
 export * from './interfaces';

@@ -1,7 +1,7 @@
 {
   "name": "@dkdao/framework",
   "description": "A minimal TypeScript framework",
-  "version": "1.0.1",
+  "version": "1.0.4",
   "main": "./build/src/index.js",
   "types": "./build/src/index.d.ts",
   "files": [
@@ -22,7 +22,7 @@
   "scripts": {
     "test": "echo \"No test specified\" && exit 0",
     "build": "rm -rf ./build && tsc",
-    "release": "npm run fix && prettier --check --write ./src/**/*.ts && npm run test && npm run build && node ./devel.js",
+    "release": "npm run fix && prettier --check --write ./src/**/*.ts && npm run test && npm run build && node ./devel.js && npm publish --access public",
     "check": "npm run fix && prettier --check --write ./src/**/*.ts && npm run test && npm run build",
     "fix": "eslint --config .eslintrc.json --fix --ignore-path .eslintignore ./src/**/*.ts"
   },

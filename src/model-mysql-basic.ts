@@ -6,6 +6,10 @@ import { Pagination } from './pagination';
 export class ModelMysqlBasic<T> extends ModelMySQL {
   protected basicQuery?(): Knex.QueryBuilder;
 
+  constructor(tableName: string, dbInstanceName: string = '__default__') {
+    super(tableName, dbInstanceName);
+  }
+
   // eslint-disable-next-line class-methods-use-this
   protected attachConditions(ik: Knex.QueryBuilder, conditions?: IModelCondition<T>[]): Knex.QueryBuilder {
     if (typeof conditions !== 'undefined' && Array.isArray(conditions) && conditions.length > 0) {
