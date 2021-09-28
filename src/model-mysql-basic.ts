@@ -57,7 +57,7 @@ export class ModelMysqlBasic<T> extends ModelMySQL {
   }
 
   public async isExist(key: keyof T, value: any): Promise<boolean> {
-    const [result] = await this.getDefaultKnex().count({ count: '*', as: 'total' }).where(key, value);
+    const [result] = await this.getDefaultKnex().count('*', { as: 'total' }).where(key, value);
     return result && result.total > 0;
   }
 

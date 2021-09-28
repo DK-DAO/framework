@@ -39,22 +39,42 @@ export class Pagination {
   public static getPaginationValidator(offset: number = 0, limit: number = 20): Validator {
     return new Validator(
       {
-        location: 'any',
-        name: 'offset',
-        type: 'integer',
-        defaultValue: offset,
-      },
-      {
-        location: 'any',
         name: 'limit',
+        location: 'query',
         type: 'integer',
         defaultValue: limit,
+        validator: (v: number) => Number.isInteger(v) && v <= 1000,
+        message: 'Invalid limit number',
       },
       {
-        location: 'any',
+        name: 'offset',
+        location: 'query',
+        type: 'integer',
+        defaultValue: offset,
+        validator: (v: number) => Number.isInteger(v),
+        message: 'Invalid offset number',
+      },
+      {
         name: 'order',
+        location: 'query',
         type: 'array',
-        defaultValue: [],
+        defaultValue: [
+          {
+            column: 'id',
+            order: 'desc',
+          },
+        ],
+        validator: (v: any[]) =>
+          Array.isArray(v) &&
+          v.every(
+            (e: any) =>
+              typeof e === 'object' &&
+              e.column &&
+              e.order &&
+              ['asc', 'desc'].includes(e.order) &&
+              /[a-z0-9\_]{2,64}/gi.test(e.column),
+          ),
+        message: 'Invalid order type or column too long',
       },
     );
   }
