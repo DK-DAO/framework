@@ -1,7 +1,7 @@
 {
   "name": "@dkdao/framework",
   "description": "A minimal TypeScript framework",
-  "version": "1.0.6",
+  "version": "1.0.10",
   "main": "./build/src/index.js",
   "types": "./build/src/index.d.ts",
   "files": [
@@ -9,7 +9,7 @@
   ],
   "devDependencies": {
     "@types/express": "^4.17.13",
-    "@types/node": "^16.10.1",
+    "@types/node": "14.14.31",
     "@typescript-eslint/eslint-plugin": "^4.32.0",
     "@typescript-eslint/parser": "^4.32.0",
     "eslint": "^7.32.0",

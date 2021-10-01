@@ -11,3 +11,4 @@ export * from './transaction';
 export * from './connector';
 export * from './pagination';
 export * from './interfaces';
+export * from './cluster-application';
