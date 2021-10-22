@@ -1,7 +1,7 @@
 export interface IModelCondition<T> {
   field: keyof T;
   operator?: '>' | '<' | '<=' | '>=';
-  value: string | number;
+  value: string | number | boolean;
 }
 
 export enum EModelLock {

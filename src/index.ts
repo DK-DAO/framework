@@ -12,3 +12,4 @@ export * from './connector';
 export * from './pagination';
 export * from './interfaces';
 export * from './cluster-application';
+export * as Utilities from './utilities';
