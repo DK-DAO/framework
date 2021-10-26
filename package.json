@@ -1,7 +1,7 @@
 {
   "name": "@dkdao/framework",
   "description": "A minimal TypeScript framework",
-  "version": "1.0.12",
+  "version": "1.0.14",
   "main": "./build/src/index.js",
   "types": "./build/src/index.d.ts",
   "files": [
@@ -46,6 +46,7 @@
     "chalk": "^4.1.2",
     "dotenv": "^10.0.0",
     "express": "^4.17.1",
+    "js-sha3": "^0.8.0",
     "knex": "^0.95.11",
     "logform": "^2.3.0",
     "modern-syslog": "^1.2.0",

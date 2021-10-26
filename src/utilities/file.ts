@@ -14,6 +14,14 @@ export class File {
     }
     return candidate.pop() || '';
   }
+
+  public static filePathAtRoot(filename: string): string {
+    const fullPath = `${File.getRootFolder()}${path.sep}${filename}`;
+    if (fs.existsSync(fullPath)) {
+      return fullPath;
+    }
+    throw new Error('File does not exist');
+  }
 }
 
 export default File;
