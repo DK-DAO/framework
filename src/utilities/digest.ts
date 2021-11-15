@@ -34,4 +34,4 @@ export class Digest {
   }
 }
 
-export default File;
+export default Digest;

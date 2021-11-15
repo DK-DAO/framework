@@ -20,4 +20,4 @@ export class String {
   }
 }
 
-export default File;
+export default String;

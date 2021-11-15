@@ -6,7 +6,7 @@ import { Connector } from './connector';
 export type TMysqlModelEvent = 'table-lock' | 'table-unlock';
 
 export class ModelMySQL extends EventEmitter {
-  protected tableName: string;
+  public tableName: string;
 
   private knexInstance: Knex<any, any[]>;
 

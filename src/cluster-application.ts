@@ -6,6 +6,7 @@ import EventEmitter from 'events';
 export interface IApplicationPayload {
   name: string;
   payload: string;
+  [key: string]: string;
 }
 
 export class ClusterApplication extends EventEmitter {
@@ -22,12 +23,12 @@ export class ClusterApplication extends EventEmitter {
     this.autoRestart = restartPolicy;
   }
 
-  public add(name: string, payload: string): ClusterApplication {
+  public add(environment: IApplicationPayload): ClusterApplication {
     if (cluster.isMaster) {
-      this.emit('new', { name, payload });
+      this.emit('new', environment);
     }
 
-    this.workerStorage.set(name, { name, payload });
+    this.workerStorage.set(environment.name, environment);
     return this;
   }
 
