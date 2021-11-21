@@ -58,12 +58,7 @@ export class Pagination {
         name: 'order',
         location: 'query',
         type: 'array',
-        defaultValue: [
-          {
-            column: 'id',
-            order: 'desc',
-          },
-        ],
+        defaultValue: [],
         validator: (v: any[]) =>
           Array.isArray(v) &&
           v.every(
@@ -72,7 +67,7 @@ export class Pagination {
               e.column &&
               e.order &&
               ['asc', 'desc'].includes(e.order) &&
-              /[a-z0-9\_]{2,64}/gi.test(e.column),
+              /[a-z0-9_]{2,64}/gi.test(e.column),
           ),
         message: 'Invalid order type or column too long',
       },
