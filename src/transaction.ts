@@ -1,3 +1,4 @@
+/* eslint-disable no-await-in-loop */
 import { Knex } from 'knex';
 import { Connector } from './connector';
 

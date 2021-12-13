@@ -67,7 +67,7 @@ export class Pagination {
               e.column &&
               e.order &&
               ['asc', 'desc'].includes(e.order) &&
-              /[a-z0-9_]{2,64}/gi.test(e.column),
+              /[a-z0-9_.]{2,64}/gi.test(e.column),
           ),
         message: 'Invalid order type or column too long',
       },

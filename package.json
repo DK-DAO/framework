@@ -1,7 +1,7 @@
 {
   "name": "@dkdao/framework",
   "description": "A minimal TypeScript framework",
-  "version": "1.0.23",
+  "version": "1.0.26",
   "main": "./build/src/index.js",
   "types": "./build/src/index.d.ts",
   "files": [
@@ -50,6 +50,7 @@
     "knex": "^0.95.11",
     "logform": "^2.3.0",
     "modern-syslog": "^1.2.0",
+    "no-case": "^3.0.4",
     "remove": "^0.1.5",
     "winston": "^3.3.3",
     "winston-transport": "^4.4.0"

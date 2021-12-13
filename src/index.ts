@@ -12,4 +12,5 @@ export * from './connector';
 export * from './pagination';
 export * from './interfaces';
 export * from './cluster-application';
+export * from './config-loader';
 export * as Utilities from './utilities';
