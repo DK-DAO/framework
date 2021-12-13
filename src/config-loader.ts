@@ -15,7 +15,7 @@ export class ConfigLoader {
       this.envs = Obj.objToCamelCase(process.env);
     }
     if (typeof validators !== 'undefined') {
-      validators.validate(this.envs);
+      this.envs = validators.validate(this.envs);
     }
   }
 
