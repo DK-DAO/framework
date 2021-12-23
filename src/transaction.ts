@@ -9,6 +9,8 @@ export type TErrorCallback = (error: Error) => Promise<void>;
 export class Transaction {
   private knexInstance: Knex;
 
+  private transactionProvider: Knex.TransactionProvider;
+
   private transaction: Knex.Transaction | null = null;
 
   private stack: TTransactionCallback[] = [];
@@ -17,6 +19,7 @@ export class Transaction {
 
   constructor(dbInstanceName: string = '__default__') {
     this.knexInstance = Connector.getInstance(dbInstanceName);
+    this.transactionProvider = this.knexInstance.transactionProvider();
   }
 
   public static getInstance(dbInstanceName: string = '__default__'): Transaction {
@@ -26,7 +29,7 @@ export class Transaction {
   public async get(): Promise<Knex.Transaction> {
     if (this.transaction === null) {
       // Auto start if transaction wasn't started
-      this.transaction = await this.knexInstance.transaction();
+      this.transaction = await this.transactionProvider();
     }
     return this.transaction;
   }
@@ -49,9 +52,7 @@ export class Transaction {
 
   public async exec() {
     try {
-      if (this.transaction === null) {
-        this.transaction = await this.knexInstance.transaction();
-      }
+      this.transaction = await this.get();
       for (let i = 0; i < this.stack.length; i += 1) {
         await this.stack[i](this.transaction);
       }
