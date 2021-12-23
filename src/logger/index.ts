@@ -1,10 +1,10 @@
 import util from 'util';
 import winston, { transports, format, Logger } from 'winston';
 // @ts-ignore
-import syslog from 'modern-syslog';
+// import syslog from 'modern-syslog';
 import chalk from 'chalk';
 import { TransformableInfo } from 'logform';
-import SyslogTransport from './transport';
+// import SyslogTransport from './transport';
 
 type LogLevelType = 'emerg' | 'alert' | 'crit' | 'error' | 'warning' | 'notice' | 'info' | 'debug';
 
@@ -78,30 +78,34 @@ function internalLog(params: any[]) {
   return tempStack.join(' ');
 }
 
-const { timestamp, combine, printf } = format;
+const { timestamp, combine, printf, json } = format;
+
+const outputString = combine(
+  timestamp(),
+  printf(
+    (info: TransformableInfo) =>
+      `${info.timestamp} ${info.service} ${colorByLevel(info.level, info.level)} ${colorMessageByLevel(
+        info.level,
+        info.message,
+      )}`,
+  ),
+);
+
+const outputJson = combine(timestamp(), json());
 
 export class LoggerLoader {
   private core: Logger;
 
   private level: LogLevel;
 
-  constructor(service: string, level: LogLevelType) {
-    syslog.init(service);
+  constructor(service: string, level: LogLevelType, outputFormat: 'json' | 'string' = 'json') {
+    // syslog.init(service);
     this.core = winston.createLogger({
       level,
       levels: winston.config.syslog.levels,
-      format: combine(
-        timestamp(),
-        printf(
-          (info: TransformableInfo) =>
-            `${info.timestamp} ${info.service} ${colorByLevel(info.level, info.level)} ${colorMessageByLevel(
-              info.level,
-              info.message,
-            )}`,
-        ),
-      ),
+      format: outputFormat === 'json' ? outputJson : outputString,
       defaultMeta: { service },
-      transports: [new transports.Console(), new SyslogTransport({ syslog })],
+      transports: [new transports.Console()], // removed: new SyslogTransport({ syslog })
     });
     this.level = LogLevel[level];
     this.debug('Start new winston instance', 'service');
