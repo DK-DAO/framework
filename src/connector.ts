@@ -18,7 +18,7 @@ export class Connector {
 
   public static parseURL(inputURL: string): Knex.Config {
     const myURL = new URL(inputURL);
-    return {
+    const config: Knex.Config = {
       client: myURL.protocol.replace(/[:]/gi, ''),
       connection: {
         host: myURL.hostname,
@@ -28,6 +28,14 @@ export class Connector {
         database: myURL.pathname.replace(/[/\s]/gi, ''),
       },
     };
+    // We will try to get pool min and max otherwise we use default settings
+    if (myURL.searchParams.has('poolMin') && myURL.searchParams.has('poolMax')) {
+      config.pool = {
+        min: Number.parseInt(myURL.searchParams.get('poolMin') || '2', 10) || 2,
+        max: Number.parseInt(myURL.searchParams.get('poolMax') || '10', 10) || 10
+      }
+    }
+    return config;
   }
 
   public static connectByUrl(inputURL: string, instanceName: string = '__default__'): Knex<any, any[]> {

@@ -1,7 +1,7 @@
 {
   "name": "@dkdao/framework",
   "description": "A minimal TypeScript framework",
-  "version": "1.0.35",
+  "version": "1.0.36",
   "main": "./build/src/index.js",
   "types": "./build/src/index.d.ts",
   "files": [
